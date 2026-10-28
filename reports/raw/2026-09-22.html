@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daily Lead Report · Sep 22, 2026</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* LeadRadar - dashboard + report styles. Colors are tokens so light/dark swap in one place. */
+:root {
+  color-scheme: light;
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --surface-2: #f2f3f5;
+  --border: #e4e6ea;
+  --text: #121417;
+  --text-2: #4b5059;
+  --muted: #858b95;
+  --accent: #2a78d6;
+  --accent-soft: #e6f0fc;
+  --hot: #d03b3b;
+  --hot-soft: #fdecec;
+  --warm: #b97a00;
+  --warm-fill: #eda100;
+  --warm-soft: #fdf3dc;
+  --cold: #2a78d6;
+  --cold-soft: #e6f0fc;
+  --good: #0a7f0a;
+  --good-soft: #e5f5e5;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4; --s-other: #a3a7ae;
+  --grid: #eceef1;
+  --side-bg: #0e1726;
+  --side-text: #c8d1de;
+  --side-active: #1d2a3f;
+  --shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 1px 3px rgba(16, 24, 40, .06);
+  --radius: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #111213; --surface: #1a1a19; --surface-2: #222321; --border: #2f302d;
+    --text: #f4f4f2; --text-2: #c3c2b7; --muted: #8f8e86;
+    --accent: #3987e5; --accent-soft: #1b2a3f;
+    --hot: #e66767; --hot-soft: #3a1f1f; --warm: #e0a526; --warm-fill: #c98500; --warm-soft: #3a2f16;
+    --cold: #3987e5; --cold-soft: #1b2a3f; --good: #3fbf3f; --good-soft: #1b2e1b;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s-other: #6f716c;
+    --grid: #2a2b29; --side-bg: #0b0c0d; --side-active: #1f2023;
+    --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #111213; --surface: #1a1a19; --surface-2: #222321; --border: #2f302d;
+  --text: #f4f4f2; --text-2: #c3c2b7; --muted: #8f8e86;
+  --accent: #3987e5; --accent-soft: #1b2a3f;
+  --hot: #e66767; --hot-soft: #3a1f1f; --warm: #e0a526; --warm-fill: #c98500; --warm-soft: #3a2f16;
+  --cold: #3987e5; --cold-soft: #1b2a3f; --good: #3fbf3f; --good-soft: #1b2e1b;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s-other: #6f716c;
+  --grid: #2a2b29; --side-bg: #0b0c0d; --side-active: #1f2023;
+  --shadow: none;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg); color: var(--text);
+  font: 14px/1.5 "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1, h2, h3 { margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: 24px; font-weight: 700; }
+h2 { font-size: 16px; font-weight: 600; }
+h3 { font-size: 14px; font-weight: 600; }
+.muted { color: var(--muted); }
+.text-2 { color: var(--text-2); }
+.num { font-variant-numeric: tabular-nums; }
+
+/* ---------- layout ---------- */
+.app { display: grid; grid-template-columns: 232px 1fr; min-height: 100vh; }
+.side {
+  background: var(--side-bg); color: var(--side-text); padding: 20px 14px;
+  position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; gap: 4px;
+}
+.brand { display: flex; align-items: center; gap: 10px; padding: 4px 10px 20px; color: #fff; font-weight: 700; font-size: 17px; }
+.brand svg { flex: none; }
+.brand small { display: block; font-weight: 500; font-size: 11px; color: #8a96a8; letter-spacing: .02em; }
+.nav a {
+  display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px;
+  color: var(--side-text); font-weight: 500;
+}
+.nav a:hover { background: var(--side-active); text-decoration: none; color: #fff; }
+.nav a.active { background: var(--side-active); color: #fff; box-shadow: inset 3px 0 0 #3987e5; }
+.nav svg { width: 18px; height: 18px; opacity: .85; }
+.nav .count { margin-left: auto; font-size: 11px; background: #d03b3b; color: #fff; border-radius: 999px; padding: 1px 7px; }
+.side-foot { margin-top: auto; font-size: 12px; color: #7c889b; padding: 10px; display: grid; gap: 8px; }
+.mode-pill { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 11px; letter-spacing: .04em;
+  text-transform: uppercase; border-radius: 999px; padding: 3px 10px; background: #2b2410; color: #f5c451; width: fit-content; }
+.mode-pill.live { background: #12301a; color: #63d17b; }
+.theme-btn { background: transparent; border: 1px solid #2a3547; color: var(--side-text); border-radius: 8px; padding: 6px 10px; cursor: pointer; font: inherit; text-align: left; }
+
+.main { padding: 28px 32px 60px; min-width: 0; max-width: 1440px; }
+.page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 22px; flex-wrap: wrap; }
+.page-head p { margin: 4px 0 0; color: var(--text-2); }
+.grid { display: grid; gap: 16px; }
+.g-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.g-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.g-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.g-main { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); }
+.mt { margin-top: 16px; }
+.mt-l { margin-top: 28px; }
+
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px 20px; min-width: 0; }
+.card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.card-head p { margin: 2px 0 0; color: var(--muted); font-size: 12.5px; }
+.card.flush { padding: 0; overflow: hidden; }
+.card.flush .card-head { padding: 18px 20px 0; }
+
+/* ---------- KPI tiles ---------- */
+.kpi { display: flex; flex-direction: column; gap: 6px; }
+.kpi .label { color: var(--text-2); font-size: 12.5px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+.kpi .value { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.kpi .sub { font-size: 12px; color: var(--muted); }
+.kpi.hot .value { color: var(--hot); }
+.delta { font-size: 12px; font-weight: 600; padding: 1px 6px; border-radius: 6px; }
+.delta.up { color: var(--hot); background: var(--hot-soft); }
+.delta.down { color: var(--text-2); background: var(--surface-2); }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+/* ---------- briefing ---------- */
+.briefing { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.briefing li { display: flex; gap: 10px; align-items: flex-start; color: var(--text-2); }
+.briefing li::before { content: ""; flex: none; width: 6px; height: 6px; margin-top: 8px; border-radius: 50%; background: var(--accent); }
+
+/* ---------- badges / chips ---------- */
+.tier { display: inline-flex; align-items: center; gap: 5px; font-weight: 600; font-size: 12px; border-radius: 999px; padding: 2px 9px 2px 7px; white-space: nowrap; }
+.tier svg { width: 12px; height: 12px; }
+.tier.Hot { color: var(--hot); background: var(--hot-soft); }
+.tier.Warm { color: var(--warm); background: var(--warm-soft); }
+.tier.Cold { color: var(--cold); background: var(--cold-soft); }
+.chip { display: inline-block; font-size: 12px; color: var(--text-2); background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px; padding: 1px 7px; margin: 2px 4px 2px 0; }
+.chip.strong { color: var(--text); font-weight: 500; }
+.chip.neg { color: var(--muted); border-style: dashed; }
+.stage { font-size: 12px; color: var(--text-2); white-space: nowrap; }
+
+.score { display: inline-flex; align-items: center; gap: 8px; font-variant-numeric: tabular-nums; font-weight: 600; }
+.bar { width: 56px; height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+.bar > i { display: block; height: 100%; border-radius: 3px; }
+.bar.Hot > i { background: var(--hot); } .bar.Warm > i { background: var(--warm-fill); } .bar.Cold > i { background: var(--cold); }
+
+/* ---------- call list ---------- */
+.calls { display: grid; gap: 0; }
+.call { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 14px; padding: 14px 20px; border-top: 1px solid var(--border); align-items: start; }
+.call:first-child { border-top: none; }
+.call .rank { width: 28px; height: 28px; border-radius: 8px; background: var(--surface-2); display: grid; place-items: center; font-weight: 700; font-size: 13px; color: var(--text-2); }
+.call .who { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.call .who a { font-weight: 600; color: var(--text); font-size: 15px; }
+.call .action { margin-top: 6px; font-weight: 500; color: var(--text); display: flex; gap: 6px; align-items: center; }
+.call .action svg { color: var(--accent); flex: none; }
+.call .meta { text-align: right; font-size: 12.5px; color: var(--text-2); display: grid; gap: 3px; justify-items: end; }
+.call .phone { font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; }
+.badge-new { font-size: 11px; font-weight: 700; color: #fff; background: var(--hot); border-radius: 4px; padding: 1px 6px; letter-spacing: .03em; }
+
+/* ---------- tables ---------- */
+.toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--border); }
+.toolbar input, .toolbar select {
+  font: inherit; color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px; min-height: 36px;
+}
+.toolbar input[type=search] { min-width: 240px; flex: 1; max-width: 340px; }
+.toolbar .count { margin-left: auto; color: var(--muted); font-size: 12.5px; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+th { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; background: var(--surface); position: sticky; top: 0; }
+th[data-sort] { cursor: pointer; user-select: none; }
+th[data-sort]:hover { color: var(--text); }
+th.sorted-asc::after { content: " \2191"; } th.sorted-desc::after { content: " \2193"; }
+tbody tr:hover { background: var(--surface-2); }
+td.name a { color: var(--text); font-weight: 600; }
+td .sub { display: block; font-size: 12px; color: var(--muted); }
+td.r, th.r { text-align: right; }
+.reasons-cell { max-width: 360px; }
+
+/* ---------- lead detail ---------- */
+.lead-head { display: flex; gap: 22px; align-items: center; flex-wrap: wrap; }
+.ring { --p: 0; --c: var(--accent); width: 92px; height: 92px; border-radius: 50%; flex: none;
+  background: conic-gradient(var(--c) calc(var(--p) * 1%), var(--surface-2) 0); display: grid; place-items: center; }
+.ring > div { width: 74px; height: 74px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; text-align: center; line-height: 1.1; }
+.ring b { font-size: 24px; font-variant-numeric: tabular-nums; } .ring span { font-size: 11px; color: var(--muted); }
+.ring.Hot { --c: var(--hot); } .ring.Warm { --c: var(--warm-fill); } .ring.Cold { --c: var(--cold); }
+.facts { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px 20px; margin-top: 18px; }
+.facts dt { font-size: 12px; color: var(--muted); } .facts dd { margin: 2px 0 0; font-weight: 500; }
+.comp { display: grid; grid-template-columns: 130px 1fr 52px; gap: 10px; align-items: center; padding: 6px 0; }
+.comp .track { height: 8px; border-radius: 4px; background: var(--surface-2); overflow: hidden; }
+.comp .track i { display: block; height: 100%; background: var(--accent); border-radius: 4px; }
+.comp.neg .track i { background: var(--muted); }
+.comp .v { text-align: right; font-variant-numeric: tabular-nums; font-size: 13px; }
+.comp .k { font-size: 13px; color: var(--text-2); }
+.action-box { display: flex; gap: 12px; align-items: center; background: var(--accent-soft); border-radius: 10px; padding: 12px 14px; font-weight: 600; }
+.action-box svg { color: var(--accent); flex: none; }
+.reasons { margin: 12px 0 0; padding-left: 18px; color: var(--text-2); display: grid; gap: 4px; }
+
+.timeline { list-style: none; margin: 0; padding: 0; position: relative; }
+.timeline::before { content: ""; position: absolute; left: 15px; top: 6px; bottom: 6px; width: 2px; background: var(--border); }
+.timeline li { position: relative; display: grid; grid-template-columns: 32px 1fr auto; gap: 12px; padding: 8px 0; }
+.timeline .ic { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-2); color: var(--text-2); position: relative; border: 2px solid var(--surface); }
+.timeline .ic svg { width: 15px; height: 15px; }
+.timeline .ic.lead { background: var(--accent-soft); color: var(--accent); }
+.timeline .ic.in { background: var(--good-soft); color: var(--good); }
+.timeline .t { font-weight: 600; font-size: 13.5px; }
+.timeline .d { color: var(--text-2); font-size: 13px; overflow-wrap: anywhere; }
+.timeline time { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.day-sep { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 14px 0 4px 44px !important; display: block !important; }
+
+/* ---------- charts ---------- */
+.chart { position: relative; height: 260px; }
+.chart.tall { height: 320px; }
+.chart.short { height: 200px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12.5px; color: var(--text-2); margin: -4px 0 10px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+details.data-table { margin-top: 10px; font-size: 12.5px; }
+details.data-table summary { cursor: pointer; color: var(--muted); }
+details.data-table table td, details.data-table table th { padding: 4px 8px; position: static; }
+
+.banner { display: flex; gap: 10px; align-items: center; background: var(--warm-soft); color: var(--text); border-radius: 10px; padding: 10px 14px; margin-bottom: 18px; font-size: 13px; }
+.banner svg { color: var(--warm); flex: none; }
+.btn { display: inline-flex; align-items: center; gap: 6px; font: inherit; font-weight: 600; border-radius: 8px; padding: 8px 14px; border: 1px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; }
+.btn:hover { text-decoration: none; background: var(--surface-2); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.empty { padding: 40px; text-align: center; color: var(--muted); }
+.report-frame { width: 100%; border: 0; min-height: 80vh; display: block; border-radius: var(--radius); }
+
+@media (max-width: 1100px) {
+  .g-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .g-main, .g-2, .g-3 { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .app { grid-template-columns: 1fr; }
+  .side { position: static; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; padding: 10px 16px; }
+  .brand { padding: 4px 8px; }
+  .nav { display: flex; flex-wrap: wrap; gap: 2px; }
+  .nav a { padding: 6px 10px; }
+  .side-foot { display: none; }
+  .main { padding: 18px 16px 40px; }
+  .g-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .call { grid-template-columns: 28px minmax(0, 1fr); }
+  .call .meta { grid-column: 2; text-align: left; justify-items: start; }
+  .toolbar input[type=search] { min-width: 0; max-width: none; width: 100%; }
+  .comp { grid-template-columns: 100px 1fr 44px; }
+}
+@media print {
+  .side, .toolbar, .no-print { display: none !important; }
+  .app { grid-template-columns: 1fr; }
+  .card { box-shadow: none; break-inside: avoid; }
+}
+
+.report { max-width: 1180px; margin: 0 auto; padding: 32px 24px 60px; }
+.report-hero { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; padding-bottom: 20px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+.eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.report h1 { font-size: 28px; margin-top: 4px; }
+section { margin-top: 28px; }
+section > h2 { font-size: 18px; margin-bottom: 4px; }
+section > p.muted { margin: 0 0 14px; }
+.reason-list { font-size: 12.5px; color: var(--text-2); }
+/* Demo notice: shown on every page while running on generated data. Sticky so
+   it stays in view while scrolling through leads and numbers. */
+.fake-data { position: sticky; top: 0; z-index: 5; display: flex; gap: 10px; align-items: flex-start;
+  margin: -4px 0 18px; padding: 11px 14px; border-radius: 10px; font-size: 13px; line-height: 1.45;
+  background: var(--warm-soft); color: var(--text); border: 1px solid var(--warm-fill);
+  box-shadow: 0 6px 18px -12px rgba(0,0,0,.35); }
+.fake-data svg { color: var(--warm); flex: none; margin-top: 1px; }
+.fake-data b { color: var(--warm); }
+/* "fake" tag beside each demo phone number and email */
+.fake-tag { display: inline-block; margin-left: 6px; padding: 0 6px; border-radius: 5px; vertical-align: 1px;
+  font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; line-height: 16px;
+  color: var(--warm); background: var(--warm-soft); border: 1px solid var(--warm-fill); }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
+<script defer>/* LeadRadar charts: declarative specs -> Chart.js, colored from CSS tokens so light/dark both work.
+ *
+ * Markup: a <canvas data-chart="key"> plus a JSON script tag with id "viz-data" holding {key: spec}.
+ * spec = {kind: "line"|"bar"|"hbar"|"stacked", labels: [...], series: [{name, data, color: "--token"}],
+ *         format: "int"|"pct"|"min"|"score", colors?: ["--token" per bar]}
+ */
+(function () {
+  "use strict";
+  const charts = [];
+  const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim() || name;
+  const color = (c) => (c && c.startsWith("--") ? css(c) : c);
+
+  function fmt(v, f) {
+    if (v === null || v === undefined) return "-";
+    if (f === "pct") return v + "%";
+    if (f === "min") return v < 60 ? Math.round(v) + " min" : v < 1440 ? (v / 60).toFixed(1) + " h" : (v / 1440).toFixed(1) + " d";
+    if (f === "score") return Number(v).toFixed(1);
+    return Number(v).toLocaleString();
+  }
+
+  function build(canvas, spec) {
+    const grid = css("--grid"), text2 = css("--text-2"), muted = css("--muted"), surface = css("--surface");
+    const kind = spec.kind;
+    const horizontal = kind === "hbar";
+    const isLine = kind === "line";
+    const datasets = spec.series.map((s) => {
+      const base = color(s.color || "--s1");
+      const ds = { label: s.name, data: s.data };
+      if (isLine) {
+        Object.assign(ds, {
+          borderColor: base, backgroundColor: base, borderWidth: 2, tension: 0.3,
+          pointRadius: 0, pointHoverRadius: 5, pointHoverBorderWidth: 2, pointHoverBorderColor: surface,
+          fill: false,
+        });
+      } else {
+        const per = spec.colors ? spec.colors.map(color) : base;
+        Object.assign(ds, {
+          backgroundColor: per, borderColor: surface, borderWidth: kind === "stacked" ? { top: 2 } : 0,
+          borderRadius: kind === "stacked" ? 0 : 4, borderSkipped: kind === "stacked" ? false : "start",
+          maxBarThickness: horizontal ? 18 : 28, categoryPercentage: 0.8, barPercentage: 0.9,
+        });
+      }
+      return ds;
+    });
+    const valueAxis = {
+      beginAtZero: true, grid: { color: grid, drawTicks: false }, border: { display: false },
+      ticks: { color: muted, padding: 6, font: { size: 11 }, maxTicksLimit: 6, callback: (v) => fmt(v, spec.format) },
+      stacked: kind === "stacked",
+    };
+    if (spec.max) valueAxis.max = spec.max;
+    const catAxis = {
+      grid: { display: false }, border: { color: grid },
+      ticks: { color: text2, font: { size: 11.5 }, autoSkip: spec.labels.length > 12, maxRotation: 0, autoSkipPadding: 12 },
+      stacked: kind === "stacked",
+    };
+    return new Chart(canvas, {
+      type: isLine ? "line" : "bar",
+      data: { labels: spec.labels, datasets },
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: { duration: 400 },
+        indexAxis: horizontal ? "y" : "x",
+        interaction: { mode: "index", intersect: false, axis: horizontal ? "y" : "x" },
+        layout: { padding: { right: horizontal ? 8 : 4 } },
+        scales: horizontal ? { x: valueAxis, y: catAxis } : { x: catAxis, y: valueAxis },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: css("--text"), titleColor: surface, bodyColor: surface, padding: 10, cornerRadius: 8,
+            boxPadding: 4, usePointStyle: true,
+            callbacks: { label: (c) => ` ${c.dataset.label}: ${fmt(c.parsed[horizontal ? "x" : "y"], spec.format)}` },
+          },
+        },
+      },
+    });
+  }
+
+  function renderAll() {
+    const el = document.getElementById("viz-data");
+    if (!el || typeof Chart === "undefined") return;
+    const specs = JSON.parse(el.textContent);
+    charts.splice(0).forEach((c) => c.destroy());
+    Chart.defaults.font.family = getComputedStyle(document.body).fontFamily;
+    document.querySelectorAll("canvas[data-chart]").forEach((cv) => {
+      const spec = specs[cv.dataset.chart];
+      if (spec) charts.push(build(cv, spec));
+    });
+  }
+
+  window.LeadRadarCharts = { renderAll };
+  document.addEventListener("DOMContentLoaded", renderAll);
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", renderAll);
+  new MutationObserver(renderAll).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+})();
+</script>
+</head>
+<body>
+<div class="report">
+<div class="fake-data" role="note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><span><b>Demo with fake data.</b> Every lead, name, phone number, email, score and dollar amount here is dummy, AI-generated sample data. None of it belongs to real people or clients: phone numbers use the 555-01xx range reserved for fiction, and emails use example.com.</span></div>
+  <div class="report-hero">
+    <div>
+      <div class="eyebrow">Daily lead report · fake demo data</div>
+      <h1>Tuesday, September 22, 2026</h1>
+      <div class="muted">Generated Sep 22, 2026 7:00 AM · data as of 7:00 AM · 256 active leads</div>
+    </div>
+    <div class="muted" style="text-align:right">LeadRadar for Follow Up Boss</div>
+  </div>
+
+  <div class="grid g-5">
+    <div class="card kpi hot"><span class="label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg> Hot leads</span><span class="value">18</span>
+      <span class="sub"><span class="delta down">-1</span> vs yesterday · 58 warm</span></div>
+    <div class="card kpi"><span class="label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.5 5.1 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.5-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.7 1.1z"/></svg> New leads (24h)</span><span class="value">7</span><span class="sub">22 in 7 days</span></div>
+    <div class="card kpi"><span class="label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Median speed-to-lead</span><span class="value">34 min</span><span class="sub">13.0% under 5 min (30d)</span></div>
+    <div class="card kpi"><span class="label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg> Never contacted</span><span class="value">11</span><span class="sub">active leads, last 30 days</span></div>
+    <div class="card kpi"><span class="label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> Outbound calls (7d)</span><span class="value">81</span><span class="sub">29 hot/warm leads neglected</span></div>
+  </div>
+
+  <section class="card">
+    <h2>Briefing</h2>
+    <ul class="briefing mt"><li>5 new leads waiting for first contact - call these first.</li><li>18 hot leads today (-1 vs yesterday); 18 are on the call list.</li><li>29 hot/warm leads have had no agent contact in 7+ days.</li><li>Fastest responder: Sarah Mitchell (4 min median); slowest: Jake Thompson (11.0 h).</li><li>Best converting source: Open House (40.9% to active/under contract/closed).</li></ul>
+  </section>
+
+  <section>
+    <h2>Call list</h2>
+    <p class="muted">Ranked who-to-call-today. New uncontacted leads first, then by score.</p>
+    <div class="card flush"><div class="table-wrap"><table>
+      <thead><tr><th>#</th><th>Lead</th><th>Score</th><th>Why</th><th>Suggested action</th><th>Phone</th><th>Agent</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="num muted">1</td>
+          <td class="name"><b>Amanda Scott</b> <span class="badge-new">NEW</span><span class="sub">Attempted Contact · Google PPC</span></td>
+          <td><span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span> <span class="num">60</span></td>
+          <td class="reason-list" style="max-width:300px">New lead 8h ago - not contacted yet · Property Inquiry on 2053 Sunfield Pkwy, Buda ($455k) 11h ago</td>
+          <td style="max-width:220px">Call Amanda now - speed-to-lead window is open</td>
+          <td class="num" style="white-space:nowrap">(512) 555-0177<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>Sarah Mitchell</td>
+        </tr>
+        <tr>
+          <td class="num muted">2</td>
+          <td class="name"><b>Ashley Sanchez</b> <span class="badge-new">NEW</span><span class="sub">Lead · Website (IDX)</span></td>
+          <td><span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span> <span class="num">57</span></td>
+          <td class="reason-list" style="max-width:300px">New lead 2d ago - not contacted yet · Viewed 4 properties this week · Saved 2 properties this week</td>
+          <td style="max-width:220px">Call Ashley now - speed-to-lead window is open</td>
+          <td class="num" style="white-space:nowrap">(512) 555-0105<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>Jake Thompson</td>
+        </tr>
+        <tr>
+          <td class="num muted">3</td>
+          <td class="name"><b>Hiroshi Rivera</b> <span class="badge-new">NEW</span><span class="sub">Contacted · Website (IDX)</span></td>
+          <td><span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span> <span class="num">50</span></td>
+          <td class="reason-list" style="max-width:300px">New lead 9h ago - not contacted yet · No phone number on file</td>
+          <td style="max-width:220px">Email now - new lead, no phone</td>
+          <td class="num" style="white-space:nowrap">-</td>
+          <td>Priya Patel</td>
+        </tr>
+        <tr>
+          <td class="num muted">4</td>
+          <td class="name"><b>Camila Rodriguez</b> <span class="badge-new">NEW</span><span class="sub">Contacted · Google PPC</span></td>
+          <td><span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span> <span class="num">48</span></td>
+          <td class="reason-list" style="max-width:300px">New lead 9h ago - not contacted yet</td>
+          <td style="max-width:220px">Call Camila now - speed-to-lead window is open</td>
+          <td class="num" style="white-space:nowrap">(512) 555-0189<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>Sarah Mitchell</td>
+        </tr>
+        <tr>
+          <td class="num muted">5</td>
+          <td class="name"><b>Elizabeth Taylor</b> <span class="badge-new">NEW</span><span class="sub">Nurture · Realtor.com</span></td>
+          <td><span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span> <span class="num">48</span></td>
+          <td class="reason-list" style="max-width:300px">New lead 9h ago - not contacted yet · Property Inquiry on 202 Cedar Elm Way, Lakeway ($595k) 9h ago</td>
+          <td style="max-width:220px">Call Elizabeth now - speed-to-lead window is open</td>
+          <td class="num" style="white-space:nowrap">(512) 555-0137<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>Sarah Mitchell</td>
+        </tr>
+        <tr>
+          <td class="num muted">6</td>
+          <td class="name"><b>Brian Sato</b><span class="sub">Hot Prospect · Referral</span></td>
+          <td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">83</span></td>
+          <td class="reason-list" style="max-width:300px">Property Inquiry on 8189 Cedar Elm Way, Georgetown ($575k) 2d ago · Viewed 11 properties this week · Replied by text 17d ago</td>
+          <td style="max-width:220px">Call to book a showing for 8189 Cedar Elm Way, Georgetown</td>
+          <td class="num" style="white-space:nowrap">(512) 555-0145<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>Priya Patel</td>
+        </tr>
+        <tr>
+          <td class="num muted">7</td>
+          <td class="name"><b>Andrew Johnson</b><span class="sub">Active Client · Referral</span></td>
+          <td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">75</span></td>
+          <td class="reason-list" style="max-width:300px">Replied by text 13d ago · Called in 21d ago · No agent contact in 13 days</td>
+          <td style="max-width:220px">Call today - keep momentum</td>
+          <td class="num" style="white-space:nowrap">(737) 555-0151<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>David Kim</td>
+        </tr>
+        <tr>
+          <td class="num muted">8</td>
+          <td class="name"><b>Jessica Taylor</b><span class="sub">Contacted · Realtor.com</span></td>
+          <td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">73</span></td>
+          <td class="reason-list" style="max-width:300px">Property Inquiry on 3474 Granite Shoals Dr, Austin ($945k) 6d ago · Viewed 4 properties in 48h · Replied by text 8d ago</td>
+          <td style="max-width:220px">Call now - lead is responsive and actively browsing</td>
+          <td class="num" style="white-space:nowrap">(737) 555-0180<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>Priya Patel</td>
+        </tr>
+        <tr>
+          <td class="num muted">9</td>
+          <td class="name"><b>Omar Robinson</b><span class="sub">Active Client · Open House</span></td>
+          <td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">71</span></td>
+          <td class="reason-list" style="max-width:300px">Viewed 5 properties in 48h · Property Inquiry on 6289 Mesa Verde Trl, Lakeway ($420k) 18h ago · Texted only - never called</td>
+          <td style="max-width:220px">Call to book a showing for 6289 Mesa Verde Trl, Lakeway</td>
+          <td class="num" style="white-space:nowrap">(512) 555-0162<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>Jake Thompson</td>
+        </tr>
+        <tr>
+          <td class="num muted">10</td>
+          <td class="name"><b>Layla Thomas</b><span class="sub">Contacted · Open House</span></td>
+          <td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">71</span></td>
+          <td class="reason-list" style="max-width:300px">Viewed 4 properties in 48h · Replied by text 4d ago · Interested on last call (9d ago)</td>
+          <td style="max-width:220px">Call now - lead is responsive and actively browsing</td>
+          <td class="num" style="white-space:nowrap">(512) 555-0165<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>Marcus Lee</td>
+        </tr>
+        <tr>
+          <td class="num muted">11</td>
+          <td class="name"><b>Mark Kowalski</b><span class="sub">Contacted · Open House</span></td>
+          <td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">68</span></td>
+          <td class="reason-list" style="max-width:300px">Viewed 3 properties in 48h · Property Inquiry on 8366 Windmill Run, Buda ($445k) 2d ago · Open House lead (high-converting source)</td>
+          <td style="max-width:220px">Call now - lead is responsive and actively browsing</td>
+          <td class="num" style="white-space:nowrap">(737) 555-0160<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>Priya Patel</td>
+        </tr>
+        <tr>
+          <td class="num muted">12</td>
+          <td class="name"><b>Andre Hall</b><span class="sub">Attempted Contact · Website (IDX)</span></td>
+          <td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">68</span></td>
+          <td class="reason-list" style="max-width:300px">Property Inquiry on 4875 Hidden Canyon Dr, Lakeway ($850k) 17h ago · Viewed 7 properties this week · No agent contact in 27 days</td>
+          <td style="max-width:220px">Call to book a showing for 4875 Hidden Canyon Dr, Lakeway</td>
+          <td class="num" style="white-space:nowrap">(512) 555-0122<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>Jake Thompson</td>
+        </tr>
+        <tr>
+          <td class="num muted">13</td>
+          <td class="name"><b>Nancy Taylor</b><span class="sub">Contacted · Open House</span></td>
+          <td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">68</span></td>
+          <td class="reason-list" style="max-width:300px">Property Inquiry on 6657 Windmill Run, Georgetown ($335k) 3d ago · No agent contact in 9 days · Replied by text 18d ago</td>
+          <td style="max-width:220px">Call to book a showing for 6657 Windmill Run, Georgetown</td>
+          <td class="num" style="white-space:nowrap">(512) 555-0187<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>David Kim</td>
+        </tr>
+        <tr>
+          <td class="num muted">14</td>
+          <td class="name"><b>Yuki Rivera</b><span class="sub">Hot Prospect · Realtor.com</span></td>
+          <td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">67</span></td>
+          <td class="reason-list" style="max-width:300px">Replied by text yesterday · Interested on last call (5d ago) · Stage: Hot Prospect</td>
+          <td style="max-width:220px">Call today - keep momentum</td>
+          <td class="num" style="white-space:nowrap">(512) 555-0142<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>David Kim</td>
+        </tr>
+        <tr>
+          <td class="num muted">15</td>
+          <td class="name"><b>Brandon Kim</b><span class="sub">Hot Prospect · Realtor.com</span></td>
+          <td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">66</span></td>
+          <td class="reason-list" style="max-width:300px">Viewed 4 properties in 48h · Replied by text 7d ago · No agent contact in 7 days</td>
+          <td style="max-width:220px">Call now - lead is responsive and actively browsing</td>
+          <td class="num" style="white-space:nowrap">(737) 555-0144<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>Marcus Lee</td>
+        </tr>
+        <tr>
+          <td class="num muted">16</td>
+          <td class="name"><b>Diego Kowalski</b><span class="sub">Contacted · Zillow</span></td>
+          <td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">66</span></td>
+          <td class="reason-list" style="max-width:300px">Property Inquiry on 7481 Windmill Run, Georgetown ($350k) yesterday · Viewed 3 properties this week · No agent contact in 14 days</td>
+          <td style="max-width:220px">Call to book a showing for 7481 Windmill Run, Georgetown</td>
+          <td class="num" style="white-space:nowrap">(737) 555-0168<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>Sarah Mitchell</td>
+        </tr>
+        <tr>
+          <td class="num muted">17</td>
+          <td class="name"><b>Omar Green</b><span class="sub">Contacted · Zillow</span></td>
+          <td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">64</span></td>
+          <td class="reason-list" style="max-width:300px">Viewed 4 properties in 48h · No agent contact in 5 days · Buying in 0-3 months</td>
+          <td style="max-width:220px">Call now - lead is responsive and actively browsing</td>
+          <td class="num" style="white-space:nowrap">(512) 555-0115<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>Sarah Mitchell</td>
+        </tr>
+        <tr>
+          <td class="num muted">18</td>
+          <td class="name"><b>Layla Smith</b><span class="sub">Active Client · Zillow</span></td>
+          <td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">64</span></td>
+          <td class="reason-list" style="max-width:300px">Property Inquiry on 390 Oak Creek Ln, Buda ($515k) 10h ago · Stage: Active Client · Replied by text 20d ago</td>
+          <td style="max-width:220px">Call to book a showing for 390 Oak Creek Ln, Buda</td>
+          <td class="num" style="white-space:nowrap">(737) 555-0189<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>Marcus Lee</td>
+        </tr>
+        <tr>
+          <td class="num muted">19</td>
+          <td class="name"><b>Ava Scott</b><span class="sub">Active Client · Zillow</span></td>
+          <td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">63</span></td>
+          <td class="reason-list" style="max-width:300px">Viewed 3 properties this week · Replied by text 11d ago · Stage: Active Client</td>
+          <td style="max-width:220px">Call today - keep momentum</td>
+          <td class="num" style="white-space:nowrap">(737) 555-0185<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>David Kim</td>
+        </tr>
+        <tr>
+          <td class="num muted">20</td>
+          <td class="name"><b>Nicholas Martinez</b><span class="sub">Hot Prospect · Realtor.com</span></td>
+          <td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">63</span></td>
+          <td class="reason-list" style="max-width:300px">No agent contact in 10 days · Stage: Hot Prospect · Replied by text 16d ago</td>
+          <td style="max-width:220px">Call today - keep momentum</td>
+          <td class="num" style="white-space:nowrap">(737) 555-0186<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>Sarah Mitchell</td>
+        </tr>
+        <tr>
+          <td class="num muted">21</td>
+          <td class="name"><b>Linda Torres</b><span class="sub">Hot Prospect · Referral</span></td>
+          <td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">63</span></td>
+          <td class="reason-list" style="max-width:300px">Viewed 4 properties this week · Referral lead (high-converting source) · Stage: Hot Prospect</td>
+          <td style="max-width:220px">Call today - keep momentum</td>
+          <td class="num" style="white-space:nowrap">(512) 555-0182<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>Sarah Mitchell</td>
+        </tr>
+        <tr>
+          <td class="num muted">22</td>
+          <td class="name"><b>Yuki Chen</b><span class="sub">Active Client · Open House</span></td>
+          <td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">61</span></td>
+          <td class="reason-list" style="max-width:300px">Texted only - never called · Stage: Active Client · Open House lead (high-converting source)</td>
+          <td style="max-width:220px">Call today - keep momentum</td>
+          <td class="num" style="white-space:nowrap">(737) 555-0110<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>David Kim</td>
+        </tr>
+        <tr>
+          <td class="num muted">23</td>
+          <td class="name"><b>Yuki Johnson</b><span class="sub">Hot Prospect · Open House</span></td>
+          <td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">60</span></td>
+          <td class="reason-list" style="max-width:300px">Replied by text 9d ago · Called in 11h ago · Stage: Hot Prospect</td>
+          <td style="max-width:220px">Call today - keep momentum</td>
+          <td class="num" style="white-space:nowrap">(512) 555-0191<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>Marcus Lee</td>
+        </tr>
+        <tr>
+          <td class="num muted">24</td>
+          <td class="name"><b>Mateo Hernandez</b><span class="sub">Attempted Contact · Referral</span></td>
+          <td><span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span> <span class="num">60</span></td>
+          <td class="reason-list" style="max-width:300px">Viewed 4 properties in 48h · No agent contact in 11 days · Referral lead (high-converting source)</td>
+          <td style="max-width:220px">Call and send listings matching recent views</td>
+          <td class="num" style="white-space:nowrap">(512) 555-0108<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>Marcus Lee</td>
+        </tr>
+        <tr>
+          <td class="num muted">25</td>
+          <td class="name"><b>Steven Johnson</b><span class="sub">Attempted Contact · Open House</span></td>
+          <td><span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span> <span class="num">59</span></td>
+          <td class="reason-list" style="max-width:300px">No agent contact in 24 days · Open House lead (high-converting source) · Buying in 0-3 months</td>
+          <td style="max-width:220px">Text a check-in with 2-3 new listings</td>
+          <td class="num" style="white-space:nowrap">(737) 555-0149<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></td>
+          <td>Marcus Lee</td>
+        </tr>
+      </tbody>
+    </table></div></div>
+  </section>
+
+  <section>
+    <h2>Lead flow</h2>
+    <p class="muted">Where leads come from and how they move.</p>
+    <div class="grid g-2">
+      <div class="card"><div class="card-head"><div><h3>New leads per day</h3><p>Last 30 days, by source</p></div></div>
+        <div class="legend"><span><i style="background: var(--s1)"></i>Zillow</span><span><i style="background: var(--s2)"></i>Website (IDX)</span><span><i style="background: var(--s3)"></i>Realtor.com</span><span><i style="background: var(--s4)"></i>Facebook Ads</span><span><i style="background: var(--s-other)"></i>Other</span></div><div class="chart"><canvas data-chart="daily" role="img" aria-label="Stacked bars of new leads per day by source"></canvas></div><details class="data-table"><summary>View data</summary>
+<table><thead><tr><th></th><th class="r">Zillow</th><th class="r">Website (IDX)</th><th class="r">Realtor.com</th><th class="r">Facebook Ads</th><th class="r">Other</th></tr></thead><tbody>
+<tr><td>Aug 24</td><td class="r num">2</td><td class="r num">0</td><td class="r num">0</td><td class="r num">1</td><td class="r num">0</td></tr><tr><td>Aug 25</td><td class="r num">0</td><td class="r num">2</td><td class="r num">0</td><td class="r num">0</td><td class="r num">1</td></tr><tr><td>Aug 26</td><td class="r num">1</td><td class="r num">1</td><td class="r num">0</td><td class="r num">0</td><td class="r num">1</td></tr><tr><td>Aug 27</td><td class="r num">1</td><td class="r num">0</td><td class="r num">0</td><td class="r num">0</td><td class="r num">0</td></tr><tr><td>Aug 28</td><td class="r num">1</td><td class="r num">2</td><td class="r num">2</td><td class="r num">0</td><td class="r num">1</td></tr><tr><td>Aug 29</td><td class="r num">1</td><td class="r num">0</td><td class="r num">2</td><td class="r num">3</td><td class="r num">1</td></tr><tr><td>Aug 30</td><td class="r num">2</td><td class="r num">0</td><td class="r num">1</td><td class="r num">1</td><td class="r num">2</td></tr><tr><td>Aug 31</td><td class="r num">1</td><td class="r num">0</td><td class="r num">1</td><td class="r num">1</td><td class="r num">2</td></tr><tr><td>Sep 01</td><td class="r num">3</td><td class="r num">0</td><td class="r num">0</td><td class="r num">0</td><td class="r num">1</td></tr><tr><td>Sep 02</td><td class="r num">2</td><td class="r num">1</td><td class="r num">2</td><td class="r num">1</td><td class="r num">2</td></tr><tr><td>Sep 03</td><td class="r num">1</td><td class="r num">1</td><td class="r num">0</td><td class="r num">0</td><td class="r num">1</td></tr><tr><td>Sep 04</td><td class="r num">1</td><td class="r num">0</td><td class="r num">0</td><td class="r num">0</td><td class="r num">3</td></tr><tr><td>Sep 05</td><td class="r num">0</td><td class="r num">0</td><td class="r num">1</td><td class="r num">2</td><td class="r num">2</td></tr><tr><td>Sep 06</td><td class="r num">2</td><td class="r num">1</td><td class="r num">1</td><td class="r num">2</td><td class="r num">0</td></tr><tr><td>Sep 07</td><td class="r num">1</td><td class="r num">1</td><td class="r num">0</td><td class="r num">0</td><td class="r num">1</td></tr><tr><td>Sep 08</td><td class="r num">0</td><td class="r num">0</td><td class="r num">0</td><td class="r num">0</td><td class="r num">3</td></tr><tr><td>Sep 09</td><td class="r num">2</td><td class="r num">1</td><td class="r num">0</td><td class="r num">0</td><td class="r num">0</td></tr><tr><td>Sep 10</td><td class="r num">2</td><td class="r num">0</td><td class="r num">1</td><td class="r num">1</td><td class="r num">2</td></tr><tr><td>Sep 11</td><td class="r num">3</td><td class="r num">3</td><td class="r num">0</td><td class="r num">0</td><td class="r num">1</td></tr><tr><td>Sep 12</td><td class="r num">2</td><td class="r num">3</td><td class="r num">1</td><td class="r num">1</td><td class="r num">1</td></tr><tr><td>Sep 13</td><td class="r num">3</td><td class="r num">0</td><td class="r num">0</td><td class="r num">1</td><td class="r num">0</td></tr><tr><td>Sep 14</td><td class="r num">2</td><td class="r num">0</td><td class="r num">1</td><td class="r num">3</td><td class="r num">0</td></tr><tr><td>Sep 15</td><td class="r num">0</td><td class="r num">0</td><td class="r num">2</td><td class="r num">0</td><td class="r num">1</td></tr><tr><td>Sep 16</td><td class="r num">1</td><td class="r num">1</td><td class="r num">0</td><td class="r num">0</td><td class="r num">0</td></tr><tr><td>Sep 17</td><td class="r num">0</td><td class="r num">0</td><td class="r num">1</td><td class="r num">0</td><td class="r num">1</td></tr><tr><td>Sep 18</td><td class="r num">1</td><td class="r num">1</td><td class="r num">1</td><td class="r num">0</td><td class="r num">0</td></tr><tr><td>Sep 19</td><td class="r num">2</td><td class="r num">0</td><td class="r num">0</td><td class="r num">0</td><td class="r num">3</td></tr><tr><td>Sep 20</td><td class="r num">0</td><td class="r num">1</td><td class="r num">0</td><td class="r num">0</td><td class="r num">0</td></tr><tr><td>Sep 21</td><td class="r num">1</td><td class="r num">0</td><td class="r num">1</td><td class="r num">0</td><td class="r num">1</td></tr><tr><td>Sep 22</td><td class="r num">0</td><td class="r num">2</td><td class="r num">1</td><td class="r num">0</td><td class="r num">2</td></tr></tbody></table></details></div>
+      <div class="card"><div class="card-head"><div><h3>Lead volume by source</h3><p>New leads, last 30 days</p></div></div>
+        <div class="chart"><canvas data-chart="sources" role="img" aria-label="Bar chart of new leads by source"></canvas></div><details class="data-table"><summary>View data</summary>
+<table><thead><tr><th></th><th class="r">New leads (30d)</th></tr></thead><tbody>
+<tr><td>Zillow</td><td class="r num">40</td></tr><tr><td>Website (IDX)</td><td class="r num">21</td></tr><tr><td>Realtor.com</td><td class="r num">20</td></tr><tr><td>Facebook Ads</td><td class="r num">17</td></tr><tr><td>Google PPC</td><td class="r num">11</td></tr><tr><td>Referral</td><td class="r num">11</td></tr><tr><td>Open House</td><td class="r num">11</td></tr></tbody></table></details></div>
+      <div class="card"><div class="card-head"><div><h3>Pipeline by stage</h3><p>All leads, current stage</p></div></div>
+        <div class="chart"><canvas data-chart="funnel" role="img" aria-label="Bar chart of leads by pipeline stage"></canvas></div><details class="data-table"><summary>View data</summary>
+<table><thead><tr><th></th><th class="r">Leads</th></tr></thead><tbody>
+<tr><td>Lead</td><td class="r num">19</td></tr><tr><td>Attempted Contact</td><td class="r num">40</td></tr><tr><td>Contacted</td><td class="r num">105</td></tr><tr><td>Nurture</td><td class="r num">63</td></tr><tr><td>Hot Prospect</td><td class="r num">14</td></tr><tr><td>Active Client</td><td class="r num">15</td></tr><tr><td>Pending</td><td class="r num">13</td></tr><tr><td>Closed</td><td class="r num">9</td></tr></tbody></table></details></div>
+      <div class="card"><div class="card-head"><div><h3>Conversion by source</h3><p>% of leads now Active Client, Pending or Closed (90 days)</p></div></div>
+        <div class="chart"><canvas data-chart="conversion" role="img" aria-label="Bar chart of conversion rate by source"></canvas></div><details class="data-table"><summary>View data</summary>
+<table><thead><tr><th></th><th class="r">Converted</th></tr></thead><tbody>
+<tr><td>Open House</td><td class="r num">40.9%</td></tr><tr><td>Referral</td><td class="r num">33.3%</td></tr><tr><td>Realtor.com</td><td class="r num">14.9%</td></tr><tr><td>Zillow</td><td class="r num">10.6%</td></tr><tr><td>Google PPC</td><td class="r num">3.6%</td></tr><tr><td>Website (IDX)</td><td class="r num">3.3%</td></tr><tr><td>Facebook Ads</td><td class="r num">2.4%</td></tr></tbody></table></details></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Response &amp; follow-up</h2>
+    <p class="muted">How fast and how consistently the team works its leads.</p>
+    <div class="grid g-2">
+      <div class="card"><div class="card-head"><div><h3>Speed-to-lead</h3><p>Time to first call/text, leads from the last 30 days</p></div></div>
+        <div class="chart"><canvas data-chart="speed" role="img" aria-label="Histogram of speed to lead"></canvas></div><details class="data-table"><summary>View data</summary>
+<table><thead><tr><th></th><th class="r">Leads (30d)</th></tr></thead><tbody>
+<tr><td>&lt; 5 min</td><td class="r num">17</td></tr><tr><td>5-30 min</td><td class="r num">40</td></tr><tr><td>30-60 min</td><td class="r num">14</td></tr><tr><td>1-4 h</td><td class="r num">15</td></tr><tr><td>4-24 h</td><td class="r num">32</td></tr><tr><td>&gt; 24 h</td><td class="r num">1</td></tr><tr><td>Not contacted</td><td class="r num">12</td></tr></tbody></table></details></div>
+      <div class="card"><div class="card-head"><div><h3>Hot &amp; warm trend</h3><p>Daily tier counts, last 30 days</p></div></div>
+        <div class="legend"><span><i style="background: var(--hot)"></i>Hot</span><span><i style="background: var(--warm-fill)"></i>Warm</span></div><div class="chart"><canvas data-chart="trend" role="img" aria-label="Line chart of hot and warm leads per day"></canvas></div><details class="data-table"><summary>View data</summary>
+<table><thead><tr><th></th><th class="r">Hot</th><th class="r">Warm</th></tr></thead><tbody>
+<tr><td>Sep 06</td><td class="r num">17</td><td class="r num">59</td></tr><tr><td>Sep 07</td><td class="r num">21</td><td class="r num">57</td></tr><tr><td>Sep 08</td><td class="r num">22</td><td class="r num">56</td></tr><tr><td>Sep 09</td><td class="r num">17</td><td class="r num">51</td></tr><tr><td>Sep 10</td><td class="r num">18</td><td class="r num">56</td></tr><tr><td>Sep 11</td><td class="r num">21</td><td class="r num">53</td></tr><tr><td>Sep 12</td><td class="r num">19</td><td class="r num">57</td></tr><tr><td>Sep 13</td><td class="r num">20</td><td class="r num">63</td></tr><tr><td>Sep 14</td><td class="r num">24</td><td class="r num">55</td></tr><tr><td>Sep 15</td><td class="r num">24</td><td class="r num">61</td></tr><tr><td>Sep 16</td><td class="r num">21</td><td class="r num">68</td></tr><tr><td>Sep 17</td><td class="r num">18</td><td class="r num">62</td></tr><tr><td>Sep 18</td><td class="r num">19</td><td class="r num">67</td></tr><tr><td>Sep 19</td><td class="r num">21</td><td class="r num">59</td></tr><tr><td>Sep 20</td><td class="r num">20</td><td class="r num">57</td></tr><tr><td>Sep 21</td><td class="r num">19</td><td class="r num">58</td></tr><tr><td>Sep 22</td><td class="r num">18</td><td class="r num">58</td></tr></tbody></table></details></div>
+    </div>
+    <div class="card flush mt"><div class="card-head" style="padding-bottom:12px"><div><h3>Agent scorecard</h3><p>Sorted by median first-response time (leads from the last 30 days)</p></div></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Agent</th><th class="r">Leads (30d)</th><th class="r">Median response</th><th class="r">&lt; 5 min</th><th class="r">Calls (7d)</th><th class="r">Hot</th><th class="r">Never contacted</th><th class="r">Neglected</th></tr></thead>
+        <tbody><tr><td class="name">Sarah Mitchell</td><td class="r num">22</td><td class="r num">4 min</td><td class="r num">45.5%</td><td class="r num">17</td><td class="r num">4</td><td class="r num">4</td><td class="r num">4</td></tr><tr><td class="name">Marcus Lee</td><td class="r num">25</td><td class="r num">14 min</td><td class="r num">12.0%</td><td class="r num">14</td><td class="r num">4</td><td class="r num">2</td><td class="r num">3</td></tr><tr><td class="name">David Kim</td><td class="r num">20</td><td class="r num">28 min</td><td class="r num">15.0%</td><td class="r num">21</td><td class="r num">5</td><td class="r num">2</td><td class="r num">4</td></tr><tr><td class="name">Priya Patel</td><td class="r num">24</td><td class="r num">60 min</td><td class="r num">0.0%</td><td class="r num">15</td><td class="r num">3</td><td class="r num">3</td><td class="r num">7</td></tr><tr><td class="name">Elena Rodriguez</td><td class="r num">24</td><td class="r num">2.0 h</td><td class="r num">4.2%</td><td class="r num">13</td><td class="r num">0</td><td class="r num">5</td><td class="r num">6</td></tr><tr><td class="name">Jake Thompson</td><td class="r num">16</td><td class="r num">11.0 h</td><td class="r num">0.0%</td><td class="r num">1</td><td class="r num">2</td><td class="r num">7</td><td class="r num">5</td></tr></tbody>
+      </table></div></div>
+  </section>
+
+  <section>
+    <h2>Neglected leads</h2>
+    <p class="muted">Hot or warm leads with no call/text from the team in 7+ days (or never).</p>
+    <div class="card flush"><div class="table-wrap"><table>
+      <thead><tr><th>Lead</th><th>Score</th><th>Agent</th><th>Last agent contact</th><th>Why it matters</th></tr></thead>
+      <tbody>
+        <tr><td class="name"><b>Brian Sato</b><span class="sub">Hot Prospect · Referral</span></td><td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">83</span></td>
+          <td>Priya Patel</td><td>2026-09-14</td><td class="reason-list">Property Inquiry on 8189 Cedar Elm Way, Georgetown ($575k) 2d ago · Viewed 11 properties this week · Replied by text 17d ago</td></tr>
+        <tr><td class="name"><b>Andrew Johnson</b><span class="sub">Active Client · Referral</span></td><td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">75</span></td>
+          <td>David Kim</td><td>2026-09-08</td><td class="reason-list">Replied by text 13d ago · Called in 21d ago · No agent contact in 13 days</td></tr>
+        <tr><td class="name"><b>Jessica Taylor</b><span class="sub">Contacted · Realtor.com</span></td><td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">73</span></td>
+          <td>Priya Patel</td><td>2026-09-13</td><td class="reason-list">Property Inquiry on 3474 Granite Shoals Dr, Austin ($945k) 6d ago · Viewed 4 properties in 48h · Replied by text 8d ago</td></tr>
+        <tr><td class="name"><b>Andre Hall</b><span class="sub">Attempted Contact · Website (IDX)</span></td><td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">68</span></td>
+          <td>Jake Thompson</td><td>2026-08-25</td><td class="reason-list">Property Inquiry on 4875 Hidden Canyon Dr, Lakeway ($850k) 17h ago · Viewed 7 properties this week · No agent contact in 27 days</td></tr>
+        <tr><td class="name"><b>Nancy Taylor</b><span class="sub">Contacted · Open House</span></td><td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">68</span></td>
+          <td>David Kim</td><td>2026-09-13</td><td class="reason-list">Property Inquiry on 6657 Windmill Run, Georgetown ($335k) 3d ago · No agent contact in 9 days · Replied by text 18d ago</td></tr>
+        <tr><td class="name"><b>Brandon Kim</b><span class="sub">Hot Prospect · Realtor.com</span></td><td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">66</span></td>
+          <td>Marcus Lee</td><td>2026-09-15</td><td class="reason-list">Viewed 4 properties in 48h · Replied by text 7d ago · No agent contact in 7 days</td></tr>
+        <tr><td class="name"><b>Diego Kowalski</b><span class="sub">Contacted · Zillow</span></td><td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">66</span></td>
+          <td>Sarah Mitchell</td><td>2026-09-07</td><td class="reason-list">Property Inquiry on 7481 Windmill Run, Georgetown ($350k) yesterday · Viewed 3 properties this week · No agent contact in 14 days</td></tr>
+        <tr><td class="name"><b>Nicholas Martinez</b><span class="sub">Hot Prospect · Realtor.com</span></td><td><span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span> <span class="num">63</span></td>
+          <td>Sarah Mitchell</td><td>2026-09-11</td><td class="reason-list">No agent contact in 10 days · Stage: Hot Prospect · Replied by text 16d ago</td></tr>
+        <tr><td class="name"><b>Mateo Hernandez</b><span class="sub">Attempted Contact · Referral</span></td><td><span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span> <span class="num">60</span></td>
+          <td>Marcus Lee</td><td>2026-09-10</td><td class="reason-list">Viewed 4 properties in 48h · No agent contact in 11 days · Referral lead (high-converting source)</td></tr>
+        <tr><td class="name"><b>Steven Johnson</b><span class="sub">Attempted Contact · Open House</span></td><td><span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span> <span class="num">59</span></td>
+          <td>Marcus Lee</td><td>2026-08-29</td><td class="reason-list">No agent contact in 24 days · Open House lead (high-converting source) · Buying in 0-3 months</td></tr>
+        <tr><td class="name"><b>Jennifer Walker</b><span class="sub">Active Client · Open House</span></td><td><span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span> <span class="num">57</span></td>
+          <td>Priya Patel</td><td>2026-09-09</td><td class="reason-list">No agent contact in 12 days · Stage: Active Client · Open House lead (high-converting source)</td></tr>
+        <tr><td class="name"><b>Luis Ramirez</b><span class="sub">Attempted Contact · Open House</span></td><td><span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span> <span class="num">57</span></td>
+          <td>Priya Patel</td><td>2026-08-11</td><td class="reason-list">Property Inquiry on 6975 Bluebonnet Ln, Austin ($685k) 5d ago · Viewed 3 properties in 48h · Texted only - never called</td></tr>
+        <tr><td class="name"><b>Arjun Miller</b><span class="sub">Attempted Contact · Website (IDX)</span></td><td><span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span> <span class="num">56</span></td>
+          <td>Jake Thompson</td><td>2026-07-29</td><td class="reason-list">No agent contact in 54 days · Viewed 3 properties in 48h</td></tr>
+        <tr><td class="name"><b>Caleb Rivera</b><span class="sub">Nurture · Website (IDX)</span></td><td><span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span> <span class="num">56</span></td>
+          <td>David Kim</td><td>2026-08-20</td><td class="reason-list">Viewed 3 properties in 48h · No agent contact in 32 days · Overdue task: Text Caleb new listings (due 26d ago)</td></tr>
+        <tr><td class="name"><b>Jacob Costa</b><span class="sub">Nurture · Zillow</span></td><td><span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span> <span class="num">54</span></td>
+          <td>David Kim</td><td>2026-09-09</td><td class="reason-list">Property Inquiry on 8265 Limestone Ridge, Pflugerville ($845k) 3d ago · No agent contact in 13 days · Saved 2 properties this week</td></tr>
+        <tr><td class="name"><b>Samuel Martinez</b><span class="sub">Lead · Realtor.com</span></td><td><span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span> <span class="num">51</span></td>
+          <td>Jake Thompson</td><td>Never</td><td class="reason-list">Property Inquiry on 8706 Mesa Verde Trl, Buda ($435k) 4d ago · Never called or texted · Saved 1 property this week</td></tr>
+        <tr><td class="name"><b>Hannah Hill</b><span class="sub">Attempted Contact · Zillow</span></td><td><span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span> <span class="num">50</span></td>
+          <td>Jake Thompson</td><td>2026-09-13</td><td class="reason-list">Viewed 4 properties this week · No agent contact in 8 days</td></tr>
+        <tr><td class="name"><b>Jennifer Jones</b><span class="sub">Contacted · Open House</span></td><td><span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span> <span class="num">50</span></td>
+          <td>Sarah Mitchell</td><td>2026-09-11</td><td class="reason-list">No agent contact in 10 days · Open House lead (high-converting source) · Interested on last call (10d ago)</td></tr>
+        <tr><td class="name"><b>Betty Flores</b><span class="sub">Lead · Zillow</span></td><td><span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span> <span class="num">50</span></td>
+          <td>Priya Patel</td><td>Never</td><td class="reason-list">Property Inquiry on 9164 Live Oak St, Round Rock ($395k) 5d ago · Never called or texted · Saved 1 property this week</td></tr>
+        <tr><td class="name"><b>Laura Hall</b><span class="sub">Contacted · Website (IDX)</span></td><td><span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span> <span class="num">50</span></td>
+          <td>Jake Thompson</td><td>2026-09-08</td><td class="reason-list">No agent contact in 13 days · Saved 1 property this week · Interested on last call (13d ago)</td></tr>
+      </tbody>
+    </table></div></div>
+  </section>
+</div>
+<script type="application/json" id="viz-data">{"trend": {"kind": "line", "labels": ["Sep 06", "Sep 07", "Sep 08", "Sep 09", "Sep 10", "Sep 11", "Sep 12", "Sep 13", "Sep 14", "Sep 15", "Sep 16", "Sep 17", "Sep 18", "Sep 19", "Sep 20", "Sep 21", "Sep 22"], "format": "int", "series": [{"name": "Hot", "data": [17, 21, 22, 17, 18, 21, 19, 20, 24, 24, 21, 18, 19, 21, 20, 19, 18], "color": "--hot"}, {"name": "Warm", "data": [59, 57, 56, 51, 56, 53, 57, 63, 55, 61, 68, 62, 67, 59, 57, 58, 58], "color": "--warm-fill"}]}, "sources": {"kind": "hbar", "labels": ["Zillow", "Website (IDX)", "Realtor.com", "Facebook Ads", "Google PPC", "Referral", "Open House"], "format": "int", "series": [{"name": "New leads (30d)", "data": [40, 21, 20, 17, 11, 11, 11], "color": "--s1"}]}, "daily": {"kind": "stacked", "labels": ["Aug 24", "Aug 25", "Aug 26", "Aug 27", "Aug 28", "Aug 29", "Aug 30", "Aug 31", "Sep 01", "Sep 02", "Sep 03", "Sep 04", "Sep 05", "Sep 06", "Sep 07", "Sep 08", "Sep 09", "Sep 10", "Sep 11", "Sep 12", "Sep 13", "Sep 14", "Sep 15", "Sep 16", "Sep 17", "Sep 18", "Sep 19", "Sep 20", "Sep 21", "Sep 22"], "format": "int", "series": [{"name": "Zillow", "data": [2, 0, 1, 1, 1, 1, 2, 1, 3, 2, 1, 1, 0, 2, 1, 0, 2, 2, 3, 2, 3, 2, 0, 1, 0, 1, 2, 0, 1, 0], "color": "--s1"}, {"name": "Website (IDX)", "data": [0, 2, 1, 0, 2, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 3, 3, 0, 0, 0, 1, 0, 1, 0, 1, 0, 2], "color": "--s2"}, {"name": "Realtor.com", "data": [0, 0, 0, 0, 2, 2, 1, 1, 0, 2, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 2, 0, 1, 1, 0, 0, 1, 1], "color": "--s3"}, {"name": "Facebook Ads", "data": [1, 0, 0, 0, 0, 3, 1, 1, 0, 1, 0, 0, 2, 2, 0, 0, 0, 1, 0, 1, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0], "color": "--s4"}, {"name": "Other", "data": [0, 1, 1, 0, 1, 1, 2, 2, 1, 2, 1, 3, 2, 0, 1, 3, 0, 2, 1, 1, 0, 0, 1, 0, 1, 0, 3, 0, 1, 2], "color": "--s-other"}]}, "funnel": {"kind": "hbar", "labels": ["Lead", "Attempted Contact", "Contacted", "Nurture", "Hot Prospect", "Active Client", "Pending", "Closed"], "format": "int", "series": [{"name": "Leads", "data": [19, 40, 105, 63, 14, 15, 13, 9], "color": "--s1"}]}, "speed": {"kind": "bar", "labels": ["< 5 min", "5-30 min", "30-60 min", "1-4 h", "4-24 h", "> 24 h", "Not contacted"], "format": "int", "colors": ["--good", "--s1", "--s1", "--s1", "--s1", "--warm-fill", "--hot"], "series": [{"name": "Leads (30d)", "data": [17, 40, 14, 15, 32, 1, 12]}]}, "agents": {"kind": "hbar", "labels": ["Sarah Mitchell", "Marcus Lee", "David Kim", "Priya Patel", "Elena Rodriguez", "Jake Thompson"], "format": "min", "series": [{"name": "Median first response", "data": [3.6, 14.4, 28.1, 59.5, 118.9, 661.7], "color": "--s1"}]}, "conversion": {"kind": "hbar", "labels": ["Open House", "Referral", "Realtor.com", "Zillow", "Google PPC", "Website (IDX)", "Facebook Ads"], "format": "pct", "series": [{"name": "Converted", "data": [40.9, 33.3, 14.9, 10.6, 3.6, 3.3, 2.4], "color": "--s3"}]}}</script>
+</body>
+</html>

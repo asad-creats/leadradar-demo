@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Call list · LeadRadar</title>
+<meta name="description" content="Lead prioritization and daily analytics for Follow Up Boss">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="static/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232a78d6'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='white' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='3' fill='white'/%3E%3C/svg%3E">
+<script src="static/app.js"></script>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <a class="brand" href="index.html" style="text-decoration:none">
+      <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#2a78d6"/><circle cx="16" cy="16" r="9" fill="none" stroke="#fff" stroke-width="2.5" opacity=".55"/><circle cx="16" cy="16" r="4.5" fill="none" stroke="#fff" stroke-width="2.5"/><path d="M16 16 23 9" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>
+      <span>LeadRadar<small>for Follow Up Boss</small></span>
+    </a>
+    <nav class="nav">
+      <a href="index.html" class=""><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Today</a>
+      <a href="call-list.html" class="active"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg>Call list</a>
+      <a href="leads.html" class=""><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg>Leads</a>
+      <a href="reports.html" class=""><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>Daily reports</a>
+      <a href="scoring.html" class=""><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>How scoring works</a>
+    </nav>
+    <div class="side-foot">
+<span class="mode-pill" title="No FUB_API_KEY set - every lead and number is fake, AI-generated sample data">● Fake demo data</span>
+      <button class="theme-btn" id="theme-toggle" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg> Toggle theme</button>
+<span>Static snapshot · <a href="https://github.com/asad-creats/leadradar-demo" style="color:#8fb6ea">GitHub</a></span>    </div>
+  </aside>
+  <main class="main">
+<div class="fake-data" role="note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><span><b>Demo with fake data.</b> Every lead, name, phone number, email, score and dollar amount here is dummy, AI-generated sample data. None of it belongs to real people or clients: phone numbers use the 555-01xx range reserved for fiction, and emails use example.com.</span></div>
+<div class="page-head">
+  <div>
+    <h1>Today's call list</h1>
+    <p>Tuesday, October 6, 2026 · 25 leads ranked by priority. New uncontacted leads always go first (speed-to-lead), then by score.</p>
+  </div>
+  <button class="btn no-print" type="button" onclick="window.print()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg> Print</button>
+</div>
+<div class="card flush" data-filter-scope>
+  <div class="toolbar">
+    <input type="search" placeholder="Search name or phone…" data-filter="q" aria-label="Search">
+    <select data-filter="agent" aria-label="Agent"><option value="">All agents</option><option>David Kim</option><option>Elena Rodriguez</option><option>Jake Thompson</option><option>Marcus Lee</option><option>Priya Patel</option><option>Sarah Mitchell</option></select>
+    <select data-filter="tier" aria-label="Tier"><option value="">Hot &amp; warm</option><option>Hot</option><option>Warm</option><option>Cold</option></select>
+    <span class="count" data-count></span>
+  </div>
+  <div class="calls">
+<div class="call" data-row data-agent="Elena Rodriguez" data-tier="Hot" data-search="sarah wright (512) 555-0165">
+  <div class="rank">1</div>
+  <div>
+    <div class="who">
+      <a href="leads/1668.html">Sarah Wright</a>
+      <span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span>
+      <span class="score num" title="Lead score">66</span>
+<span class="badge-new">NEW</span>      <span class="stage">Lead · Zillow</span>
+    </div>
+    <div><span class="chip strong">New lead 9h ago - not contacted yet</span><span class="chip">Property Inquiry on 8890 Pecan Grove Rd, Austin ($415k) 9h ago</span><span class="chip">Viewed 3 properties in 48h</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call Sarah now - speed-to-lead window is open</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(512) 555-0165"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (512) 555-0165</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>Elena Rodriguez</span>
+    <span class="muted">Last contact: never</span>
+  </div>
+</div><div class="call" data-row data-agent="David Kim" data-tier="Hot" data-search="megan flores (737) 555-0131">
+  <div class="rank">2</div>
+  <div>
+    <div class="who">
+      <a href="leads/2207.html">Megan Flores</a>
+      <span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span>
+      <span class="score num" title="Lead score">60</span>
+<span class="badge-new">NEW</span>      <span class="stage">Lead · Open House</span>
+    </div>
+    <div><span class="chip strong">New lead 7h ago - not contacted yet</span><span class="chip">Buying in 0-3 months, pre-approved</span><span class="chip">Open House lead (high-converting source)</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call Megan now - speed-to-lead window is open</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(737) 555-0131"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (737) 555-0131</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>David Kim</span>
+    <span class="muted">Last contact: never</span>
+  </div>
+</div><div class="call" data-row data-agent="Jake Thompson" data-tier="Warm" data-search="hannah gonzalez (737) 555-0165">
+  <div class="rank">3</div>
+  <div>
+    <div class="who">
+      <a href="leads/1733.html">Hannah Gonzalez</a>
+      <span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span>
+      <span class="score num" title="Lead score">58</span>
+<span class="badge-new">NEW</span>      <span class="stage">Lead · Facebook Ads</span>
+    </div>
+    <div><span class="chip strong">New lead 20h ago - not contacted yet</span><span class="chip">Seller Inquiry on 4282 Agave Ct, Pflugerville ($655k) 20h ago</span><span class="chip">Viewed 3 properties in 48h</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call Hannah now - speed-to-lead window is open</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(737) 555-0165"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (737) 555-0165</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>Jake Thompson</span>
+    <span class="muted">Last contact: never</span>
+  </div>
+</div><div class="call" data-row data-agent="Marcus Lee" data-tier="Warm" data-search="nicholas jones (512) 555-0111">
+  <div class="rank">4</div>
+  <div>
+    <div class="who">
+      <a href="leads/2068.html">Nicholas Jones</a>
+      <span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span>
+      <span class="score num" title="Lead score">58</span>
+<span class="badge-new">NEW</span>      <span class="stage">Lead · Zillow</span>
+    </div>
+    <div><span class="chip strong">New lead 2h ago - not contacted yet</span><span class="chip">Property Inquiry on 5321 Cedar Elm Way, Austin ($270k) 2h ago</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call Nicholas now - speed-to-lead window is open</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(512) 555-0111"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (512) 555-0111</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>Marcus Lee</span>
+    <span class="muted">Last contact: never</span>
+  </div>
+</div><div class="call" data-row data-agent="Jake Thompson" data-tier="Warm" data-search="mark nelson ">
+  <div class="rank">5</div>
+  <div>
+    <div class="who">
+      <a href="leads/1839.html">Mark Nelson</a>
+      <span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span>
+      <span class="score num" title="Lead score">53</span>
+<span class="badge-new">NEW</span>      <span class="stage">Lead · Zillow</span>
+    </div>
+    <div><span class="chip strong">New lead 3h ago - not contacted yet</span><span class="chip">Property Inquiry on 8198 Whispering Hollow, Austin ($475k) 3h ago</span><span class="chip">No phone number on file</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Email now - new lead, no phone</div>
+  </div>
+  <div class="meta">
+<span class="muted">No phone</span>    <span>Jake Thompson</span>
+    <span class="muted">Last contact: never</span>
+  </div>
+</div><div class="call" data-row data-agent="Jake Thompson" data-tier="Warm" data-search="laura patel (737) 555-0109">
+  <div class="rank">6</div>
+  <div>
+    <div class="who">
+      <a href="leads/1330.html">Laura Patel</a>
+      <span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span>
+      <span class="score num" title="Lead score">47</span>
+<span class="badge-new">NEW</span>      <span class="stage">Lead · Facebook Ads</span>
+    </div>
+    <div><span class="chip strong">New lead 7h ago - not contacted yet</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call Laura now - speed-to-lead window is open</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(737) 555-0109"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (737) 555-0109</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>Jake Thompson</span>
+    <span class="muted">Last contact: never</span>
+  </div>
+</div><div class="call" data-row data-agent="David Kim" data-tier="Warm" data-search="susan harris (737) 555-0137">
+  <div class="rank">7</div>
+  <div>
+    <div class="who">
+      <a href="leads/1948.html">Susan Harris</a>
+      <span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span>
+      <span class="score num" title="Lead score">46</span>
+<span class="badge-new">NEW</span>      <span class="stage">Lead · Google PPC</span>
+    </div>
+    <div><span class="chip strong">New lead 50m ago - not contacted yet</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call Susan now - speed-to-lead window is open</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(737) 555-0137"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (737) 555-0137</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>David Kim</span>
+    <span class="muted">Last contact: never</span>
+  </div>
+</div><div class="call" data-row data-agent="Jake Thompson" data-tier="Warm" data-search="steven garcia (512) 555-0164">
+  <div class="rank">8</div>
+  <div>
+    <div class="who">
+      <a href="leads/2103.html">Steven Garcia</a>
+      <span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span>
+      <span class="score num" title="Lead score">45</span>
+<span class="badge-new">NEW</span>      <span class="stage">Lead · Google PPC</span>
+    </div>
+    <div><span class="chip strong">New lead 7h ago - not contacted yet</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call Steven now - speed-to-lead window is open</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(512) 555-0164"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (512) 555-0164</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>Jake Thompson</span>
+    <span class="muted">Last contact: never</span>
+  </div>
+</div><div class="call" data-row data-agent="Marcus Lee" data-tier="Warm" data-search="joshua roberts (512) 555-0133">
+  <div class="rank">9</div>
+  <div>
+    <div class="who">
+      <a href="leads/1153.html">Joshua Roberts</a>
+      <span class="tier Warm"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Warm</span>
+      <span class="score num" title="Lead score">44</span>
+<span class="badge-new">NEW</span>      <span class="stage">Lead · Facebook Ads</span>
+    </div>
+    <div><span class="chip strong">New lead 5h ago - not contacted yet</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call Joshua now - speed-to-lead window is open</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(512) 555-0133"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (512) 555-0133</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>Marcus Lee</span>
+    <span class="muted">Last contact: never</span>
+  </div>
+</div><div class="call" data-row data-agent="Marcus Lee" data-tier="Hot" data-search="yuki johnson (512) 555-0191">
+  <div class="rank">10</div>
+  <div>
+    <div class="who">
+      <a href="leads/1346.html">Yuki Johnson</a>
+      <span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span>
+      <span class="score num" title="Lead score">78</span>
+      <span class="stage">Hot Prospect · Open House</span>
+    </div>
+    <div><span class="chip strong">Property Inquiry on 2906 Cypress Bend, Buda ($320k) 6h ago</span><span class="chip">Viewed 4 properties this week</span><span class="chip">No agent contact in 9 days</span><span class="chip">Replied by text 23d ago</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call now - lead is responsive and actively browsing</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(512) 555-0191"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (512) 555-0191</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>Marcus Lee</span>
+    <span class="muted">Last contact: 9d ago</span>
+  </div>
+</div><div class="call" data-row data-agent="Sarah Mitchell" data-tier="Hot" data-search="jacob miller (512) 555-0162">
+  <div class="rank">11</div>
+  <div>
+    <div class="who">
+      <a href="leads/1888.html">Jacob Miller</a>
+      <span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span>
+      <span class="score num" title="Lead score">77</span>
+      <span class="stage">Hot Prospect · Referral</span>
+    </div>
+    <div><span class="chip strong">Viewed 6 properties this week</span><span class="chip">Replied by text 10d ago</span><span class="chip">Called in 8d ago</span><span class="chip">Referral lead (high-converting source)</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call now - lead is responsive and actively browsing</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(512) 555-0162"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (512) 555-0162</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>Sarah Mitchell</span>
+    <span class="muted">Last contact: 16h ago</span>
+  </div>
+</div><div class="call" data-row data-agent="Sarah Mitchell" data-tier="Hot" data-search="imani adams (512) 555-0133">
+  <div class="rank">12</div>
+  <div>
+    <div class="who">
+      <a href="leads/1557.html">Imani Adams</a>
+      <span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span>
+      <span class="score num" title="Lead score">76</span>
+      <span class="stage">Hot Prospect · Referral</span>
+    </div>
+    <div><span class="chip strong">Viewed 6 properties in 48h</span><span class="chip">No agent contact in 13 days</span><span class="chip">Referral lead (high-converting source)</span><span class="chip">Stage: Hot Prospect</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call and send listings matching recent views</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(512) 555-0133"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (512) 555-0133</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>Sarah Mitchell</span>
+    <span class="muted">Last contact: 13d ago</span>
+  </div>
+</div><div class="call" data-row data-agent="Marcus Lee" data-tier="Hot" data-search="elizabeth lewis (512) 555-0124">
+  <div class="rank">13</div>
+  <div>
+    <div class="who">
+      <a href="leads/1897.html">Elizabeth Lewis</a>
+      <span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span>
+      <span class="score num" title="Lead score">75</span>
+      <span class="stage">Hot Prospect · Zillow</span>
+    </div>
+    <div><span class="chip strong">Property Inquiry on 6671 Barton Hills Dr, Austin ($605k) 9h ago</span><span class="chip">Called in 1h ago</span><span class="chip">Stage: Hot Prospect</span><span class="chip">Buying in 0-3 months, pre-approved</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call to book a showing for 6671 Barton Hills Dr, Austin</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(512) 555-0124"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (512) 555-0124</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>Marcus Lee</span>
+    <span class="muted">Last contact: 18h ago</span>
+  </div>
+</div><div class="call" data-row data-agent="David Kim" data-tier="Hot" data-search="lisa kowalski (512) 555-0101">
+  <div class="rank">14</div>
+  <div>
+    <div class="who">
+      <a href="leads/2189.html">Lisa Kowalski</a>
+      <span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span>
+      <span class="score num" title="Lead score">74</span>
+      <span class="stage">Hot Prospect · Zillow</span>
+    </div>
+    <div><span class="chip strong">Property Inquiry on 6728 Barton Hills Dr, Austin ($295k) yesterday</span><span class="chip">Viewed 9 properties this week</span><span class="chip">Called in 2d ago</span><span class="chip">Stage: Hot Prospect</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call now - lead is responsive and actively browsing</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(512) 555-0101"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (512) 555-0101</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>David Kim</span>
+    <span class="muted">Last contact: 16h ago</span>
+  </div>
+</div><div class="call" data-row data-agent="Elena Rodriguez" data-tier="Hot" data-search="layla nguyen (512) 555-0157">
+  <div class="rank">15</div>
+  <div>
+    <div class="who">
+      <a href="leads/2105.html">Layla Nguyen</a>
+      <span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span>
+      <span class="score num" title="Lead score">72</span>
+      <span class="stage">Lead · Zillow</span>
+    </div>
+    <div><span class="chip strong">Property Inquiry on 865 Limestone Ridge, Austin ($780k) 5m ago</span><span class="chip">Never called or texted</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call about 865 Limestone Ridge, Austin - offer a showing</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(512) 555-0157"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (512) 555-0157</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>Elena Rodriguez</span>
+    <span class="muted">Last contact: never</span>
+  </div>
+</div><div class="call" data-row data-agent="Sarah Mitchell" data-tier="Hot" data-search="steven wright (737) 555-0135">
+  <div class="rank">16</div>
+  <div>
+    <div class="who">
+      <a href="leads/1045.html">Steven Wright</a>
+      <span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span>
+      <span class="score num" title="Lead score">71</span>
+      <span class="stage">Hot Prospect · Open House</span>
+    </div>
+    <div><span class="chip strong">Viewed 3 properties this week</span><span class="chip">Stage: Hot Prospect</span><span class="chip">Interested on last call (20h ago)</span><span class="chip">Open House lead (high-converting source)</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call today - keep momentum</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(737) 555-0135"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (737) 555-0135</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>Sarah Mitchell</span>
+    <span class="muted">Last contact: 20h ago</span>
+  </div>
+</div><div class="call" data-row data-agent="Marcus Lee" data-tier="Hot" data-search="mateo hernandez (512) 555-0108">
+  <div class="rank">17</div>
+  <div>
+    <div class="who">
+      <a href="leads/1091.html">Mateo Hernandez</a>
+      <span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span>
+      <span class="score num" title="Lead score">71</span>
+      <span class="stage">Attempted Contact · Referral</span>
+    </div>
+    <div><span class="chip strong">Viewed 5 properties in 48h</span><span class="chip">Property Inquiry on 7343 Agave Ct, Round Rock ($975k) yesterday</span><span class="chip">No agent contact in 25 days</span><span class="chip">Referral lead (high-converting source)</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call to book a showing for 7343 Agave Ct, Round Rock</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(512) 555-0108"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (512) 555-0108</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>Marcus Lee</span>
+    <span class="muted">Last contact: 25d ago</span>
+  </div>
+</div><div class="call" data-row data-agent="David Kim" data-tier="Hot" data-search="imani perez (737) 555-0129">
+  <div class="rank">18</div>
+  <div>
+    <div class="who">
+      <a href="leads/1951.html">Imani Perez</a>
+      <span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span>
+      <span class="score num" title="Lead score">70</span>
+      <span class="stage">Active Client · Realtor.com</span>
+    </div>
+    <div><span class="chip strong">Viewed 5 properties in 48h</span><span class="chip">Replied by text yesterday</span><span class="chip">Stage: Active Client</span><span class="chip">Interested on last call (15d ago)</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call now - lead is responsive and actively browsing</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(737) 555-0129"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (737) 555-0129</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>David Kim</span>
+    <span class="muted">Last contact: yesterday</span>
+  </div>
+</div><div class="call" data-row data-agent="Marcus Lee" data-tier="Hot" data-search="layla smith (737) 555-0189">
+  <div class="rank">19</div>
+  <div>
+    <div class="who">
+      <a href="leads/1715.html">Layla Smith</a>
+      <span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span>
+      <span class="score num" title="Lead score">69</span>
+      <span class="stage">Active Client · Zillow</span>
+    </div>
+    <div><span class="chip strong">Property Inquiry on 6969 Live Oak St, Austin ($515k) 9h ago</span><span class="chip">No agent contact in 16 days</span><span class="chip">Stage: Active Client</span><span class="chip">Buying in 0-3 months</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call to book a showing for 6969 Live Oak St, Austin</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(737) 555-0189"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (737) 555-0189</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>Marcus Lee</span>
+    <span class="muted">Last contact: 16d ago</span>
+  </div>
+</div><div class="call" data-row data-agent="Priya Patel" data-tier="Hot" data-search="brian thomas (512) 555-0173">
+  <div class="rank">20</div>
+  <div>
+    <div class="who">
+      <a href="leads/1113.html">Brian Thomas</a>
+      <span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span>
+      <span class="score num" title="Lead score">68</span>
+      <span class="stage">Active Client · Open House</span>
+    </div>
+    <div><span class="chip strong">Viewed 4 properties this week</span><span class="chip">Replied by text 23d ago</span><span class="chip">Interested on last call (5d ago)</span><span class="chip">No agent contact in 5 days</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call today - keep momentum</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(512) 555-0173"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (512) 555-0173</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>Priya Patel</span>
+    <span class="muted">Last contact: 5d ago</span>
+  </div>
+</div><div class="call" data-row data-agent="Jake Thompson" data-tier="Hot" data-search="jessica gonzalez (512) 555-0140">
+  <div class="rank">21</div>
+  <div>
+    <div class="who">
+      <a href="leads/1493.html">Jessica Gonzalez</a>
+      <span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span>
+      <span class="score num" title="Lead score">68</span>
+      <span class="stage">Contacted · Referral</span>
+    </div>
+    <div><span class="chip strong">Replied by text 12d ago</span><span class="chip">Interested on last call (9h ago)</span><span class="chip">Referral lead (high-converting source)</span><span class="chip">Buying in 0-3 months</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call today - keep momentum</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(512) 555-0140"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (512) 555-0140</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>Jake Thompson</span>
+    <span class="muted">Last contact: 9h ago</span>
+  </div>
+</div><div class="call" data-row data-agent="Sarah Mitchell" data-tier="Hot" data-search="valeria novak (512) 555-0152">
+  <div class="rank">22</div>
+  <div>
+    <div class="who">
+      <a href="leads/1025.html">Valeria Novak</a>
+      <span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span>
+      <span class="score num" title="Lead score">66</span>
+      <span class="stage">Active Client · Zillow</span>
+    </div>
+    <div><span class="chip strong">Property Inquiry on 3968 Whispering Hollow, Georgetown ($625k) 4d ago</span><span class="chip">Viewed 9 properties this week</span><span class="chip">Stage: Active Client</span><span class="chip">Saved 1 property this week</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call to book a showing for 3968 Whispering Hollow, Georgetown</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(512) 555-0152"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (512) 555-0152</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>Sarah Mitchell</span>
+    <span class="muted">Last contact: 20h ago</span>
+  </div>
+</div><div class="call" data-row data-agent="Marcus Lee" data-tier="Hot" data-search="betty silva (737) 555-0123">
+  <div class="rank">23</div>
+  <div>
+    <div class="who">
+      <a href="leads/1171.html">Betty Silva</a>
+      <span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span>
+      <span class="score num" title="Lead score">66</span>
+      <span class="stage">Hot Prospect · Realtor.com</span>
+    </div>
+    <div><span class="chip strong">Property Inquiry on 2002 Cypress Bend, Lakeway ($495k) 4d ago</span><span class="chip">Viewed 3 properties this week</span><span class="chip">Stage: Hot Prospect</span><span class="chip">Texted only - never called</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call now - lead is responsive and actively browsing</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(737) 555-0123"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (737) 555-0123</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>Marcus Lee</span>
+    <span class="muted">Last contact: 17h ago</span>
+  </div>
+</div><div class="call" data-row data-agent="David Kim" data-tier="Hot" data-search="andrew johnson (737) 555-0151">
+  <div class="rank">24</div>
+  <div>
+    <div class="who">
+      <a href="leads/1548.html">Andrew Johnson</a>
+      <span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span>
+      <span class="score num" title="Lead score">66</span>
+      <span class="stage">Active Client · Referral</span>
+    </div>
+    <div><span class="chip strong">Viewed 3 properties in 48h</span><span class="chip">No agent contact in 9 days</span><span class="chip">Referral lead (high-converting source)</span><span class="chip">Stage: Active Client</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call now - lead is responsive and actively browsing</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(737) 555-0151"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (737) 555-0151</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>David Kim</span>
+    <span class="muted">Last contact: 9d ago</span>
+  </div>
+</div><div class="call" data-row data-agent="Sarah Mitchell" data-tier="Hot" data-search="william jones (737) 555-0165">
+  <div class="rank">25</div>
+  <div>
+    <div class="who">
+      <a href="leads/1756.html">William Jones</a>
+      <span class="tier Hot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3.4.3 1.6 1.4 2.9 2.5 2.9z"/></svg>Hot</span>
+      <span class="score num" title="Lead score">66</span>
+      <span class="stage">Contacted · Zillow</span>
+    </div>
+    <div><span class="chip strong">Property Inquiry on 9154 Mesa Verde Trl, Georgetown ($600k) 4d ago</span><span class="chip">Replied by text yesterday</span><span class="chip">Called in 3d ago</span><span class="chip">Buying in 0-3 months</span></div>
+    <div class="action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Call to book a showing for 9154 Mesa Verde Trl, Georgetown</div>
+  </div>
+  <div class="meta">
+<a class="phone" href="tel:(737) 555-0165"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg> (737) 555-0165</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span>    <span>Sarah Mitchell</span>
+    <span class="muted">Last contact: yesterday</span>
+  </div>
+</div>  </div>
+</div>
+  </main>
+</div>
+</body>
+</html>

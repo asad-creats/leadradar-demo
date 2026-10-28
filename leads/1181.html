@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mateo Thomas · LeadRadar</title>
+<meta name="description" content="Lead prioritization and daily analytics for Follow Up Boss">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../static/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232a78d6'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='white' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='3' fill='white'/%3E%3C/svg%3E">
+<script src="../static/app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script><script src="../static/charts.js" defer></script></head>
+<body>
+<div class="app">
+  <aside class="side">
+    <a class="brand" href="../index.html" style="text-decoration:none">
+      <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#2a78d6"/><circle cx="16" cy="16" r="9" fill="none" stroke="#fff" stroke-width="2.5" opacity=".55"/><circle cx="16" cy="16" r="4.5" fill="none" stroke="#fff" stroke-width="2.5"/><path d="M16 16 23 9" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>
+      <span>LeadRadar<small>for Follow Up Boss</small></span>
+    </a>
+    <nav class="nav">
+      <a href="../index.html" class=""><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Today</a>
+      <a href="../call-list.html" class=""><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg>Call list</a>
+      <a href="../leads.html" class="active"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg>Leads</a>
+      <a href="../reports.html" class=""><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>Daily reports</a>
+      <a href="../scoring.html" class=""><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>How scoring works</a>
+    </nav>
+    <div class="side-foot">
+<span class="mode-pill" title="No FUB_API_KEY set - every lead and number is fake, AI-generated sample data">● Fake demo data</span>
+      <button class="theme-btn" id="theme-toggle" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg> Toggle theme</button>
+<span>Static snapshot · <a href="https://github.com/asad-creats/leadradar-demo" style="color:#8fb6ea">GitHub</a></span>    </div>
+  </aside>
+  <main class="main">
+<div class="fake-data" role="note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><span><b>Demo with fake data.</b> Every lead, name, phone number, email, score and dollar amount here is dummy, AI-generated sample data. None of it belongs to real people or clients: phone numbers use the 555-01xx range reserved for fiction, and emails use example.com.</span></div>
+<div class="page-head">
+  <div><a href="../leads.html">← All leads</a></div>
+</div>
+
+<div class="grid g-main">
+  <div class="grid" style="align-content:start">
+    <div class="card">
+      <div class="lead-head">
+<div class="ring Cold" style="--p: 16.1"><div><span><b>16</b><br>score</span></div></div>        <div style="min-width:0">
+          <h1>Mateo Thomas</h1>
+          <div style="display:flex; gap:8px; align-items:center; margin-top:6px; flex-wrap:wrap">
+            <span class="tier Cold"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20M4.9 4.9l14.2 14.2M2 12h20M4.9 19.1 19.1 4.9"/></svg>Cold</span><span class="chip">Contacted</span><span class="chip">Zillow</span>
+<span class="chip">Buyer</span><span class="chip">Zillow Lead</span>          </div>
+        </div>
+      </div>
+      <div class="action-box mt"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Keep on nurture drip</div>
+      <ul class="reasons"></ul>
+      <dl class="facts">
+        <div><dt>Phone</dt><dd><a href="tel:(512) 555-0185">(512) 555-0185</a><span class="fake-tag" title="Fake, AI-generated sample data">fake</span></dd></div>
+        <div><dt>Email</dt><dd style="overflow-wrap:anywhere">mateo.thomas1@example.com<span class="fake-tag" title="Fake, AI-generated sample data">fake</span></dd></div>
+        <div><dt>Assigned agent</dt><dd>Elena Rodriguez</dd></div>
+        <div><dt>Price point</dt><dd>$370k</dd></div>
+        <div><dt>Timeframe</dt><dd>Unknown</dd></div>
+        <div><dt>Pre-approved</dt><dd>No</dd></div>
+        <div><dt>Created</dt><dd>Aug 7, 2026 10:17 PM</dd></div>
+        <div><dt>Speed-to-lead</dt><dd>10.2 h</dd></div>
+        <div><dt>Last activity</dt><dd>13d ago</dd></div>
+        <div><dt>FUB person id</dt><dd class="num">1181</dd></div>
+      </dl>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><div><h2>Activity timeline</h2><p>17 website events · 1 calls · 0 texts · 1 notes</p></div></div>
+      <ul class="timeline">
+<li class="day-sep">Sep 22, 2026</li>        <li>
+          <span class="ic lead"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
+          <div style="min-width:0"><div class="t">Viewed Property</div><div class="d">6128 Oak Creek Ln, Lakeway · $355k · 3 bd / 2 ba</div></div>
+          <time>12:33 PM</time>
+        </li>
+<li class="day-sep">Sep 13, 2026</li>        <li>
+          <span class="ic lead"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
+          <div style="min-width:0"><div class="t">Viewed Property</div><div class="d">7200 Mesa Verde Trl, Lakeway · $415k · 4 bd / 3 ba</div></div>
+          <time>12:41 PM</time>
+        </li>
+        <li>
+          <span class="ic lead"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
+          <div style="min-width:0"><div class="t">Viewed Property</div><div class="d">2236 Prairie Clover Path, Lakeway · $355k · 3 bd / 3 ba</div></div>
+          <time>12:28 PM</time>
+        </li>
+<li class="day-sep">Sep 9, 2026</li>        <li>
+          <span class="ic lead"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></span>
+          <div style="min-width:0"><div class="t">Visited Website</div></div>
+          <time>2:40 PM</time>
+        </li>
+<li class="day-sep">Aug 12, 2026</li>        <li>
+          <span class="ic lead"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
+          <div style="min-width:0"><div class="t">Viewed Property</div><div class="d">2755 Oak Creek Ln, Round Rock · $395k · 4 bd / 4 ba</div></div>
+          <time>9:08 PM</time>
+        </li>
+        <li>
+          <span class="ic lead"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
+          <div style="min-width:0"><div class="t">Viewed Property</div><div class="d">7785 Live Oak St, Austin · $360k · 3 bd / 2 ba</div></div>
+          <time>8:52 PM</time>
+        </li>
+        <li>
+          <span class="ic lead"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
+          <div style="min-width:0"><div class="t">Viewed Property</div><div class="d">3160 Shoal Creek Blvd, Georgetown · $395k · 3 bd / 3 ba</div></div>
+          <time>8:34 PM</time>
+        </li>
+<li class="day-sep">Aug 11, 2026</li>        <li>
+          <span class="ic lead"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
+          <div style="min-width:0"><div class="t">Viewed Property</div><div class="d">7034 Bluebonnet Ln, Round Rock · $345k · 4 bd / 4 ba</div></div>
+          <time>10:02 AM</time>
+        </li>
+        <li>
+          <span class="ic lead"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
+          <div style="min-width:0"><div class="t">Viewed Property</div><div class="d">3853 Prairie Clover Path, Leander · $345k · 4 bd / 3 ba</div></div>
+          <time>9:59 AM</time>
+        </li>
+<li class="day-sep">Aug 9, 2026</li>        <li>
+          <span class="ic lead"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></span>
+          <div style="min-width:0"><div class="t">Visited Website</div></div>
+          <time>8:22 PM</time>
+        </li>
+        <li>
+          <span class="ic lead"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
+          <div style="min-width:0"><div class="t">Viewed Property</div><div class="d">8798 Pecan Grove Rd, Cedar Park · $410k · 4 bd / 3 ba</div></div>
+          <time>7:58 PM</time>
+        </li>
+        <li>
+          <span class="ic lead"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></span>
+          <div style="min-width:0"><div class="t">Visited Website</div></div>
+          <time>7:41 PM</time>
+        </li>
+        <li>
+          <span class="ic lead"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
+          <div style="min-width:0"><div class="t">Viewed Property</div><div class="d">7248 Sunfield Pkwy, Georgetown · $355k · 3 bd / 2 ba</div></div>
+          <time>7:28 PM</time>
+        </li>
+<li class="day-sep">Aug 8, 2026</li>        <li>
+          <span class="ic "><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></span>
+          <div style="min-width:0"><div class="t">Note by Elena Rodriguez</div><div class="d">Great call - Mateo wants to tour 1443 Prairie Clover Path. Prefers single story.</div></div>
+          <time>8:44 AM</time>
+        </li>
+        <li>
+          <span class="ic "><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2z"/></svg></span>
+          <div style="min-width:0"><div class="t">Outbound call - Interested</div><div class="d">Elena Rodriguez · 15:55</div></div>
+          <time>8:28 AM</time>
+        </li>
+<li class="day-sep">Aug 7, 2026</li>        <li>
+          <span class="ic lead"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+          <div style="min-width:0"><div class="t">Property Inquiry</div><div class="d">1443 Prairie Clover Path, Leander · $365k · 3 bd / 3 ba</div></div>
+          <time>10:17 PM</time>
+        </li>
+        <li>
+          <span class="ic lead"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></span>
+          <div style="min-width:0"><div class="t">Visited Website</div></div>
+          <time>8:58 PM</time>
+        </li>
+        <li>
+          <span class="ic lead"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg></span>
+          <div style="min-width:0"><div class="t">Saved Property</div><div class="d">5248 Whispering Hollow, Round Rock · $400k · 3 bd / 3 ba</div></div>
+          <time>8:37 PM</time>
+        </li>
+        <li>
+          <span class="ic lead"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
+          <div style="min-width:0"><div class="t">Viewed Property</div><div class="d">8415 Hidden Canyon Dr, Buda · $350k · 3 bd / 2 ba</div></div>
+          <time>8:13 PM</time>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid" style="align-content:start">
+    <div class="card">
+      <div class="card-head"><div><h2>Score breakdown</h2><p>Points earned per component (cap in grey). Total is clamped to 0-100.</p></div></div>
+      <div class="comp" title="Property views, saves, searches and inquiries in the last 7 days (last 48h weighted 1.5x).">
+        <span class="k">Engagement</span>
+        <span class="track"><i style="width: 0.0%"></i></span>
+        <span class="v">0.0<span class="muted">/30</span></span>
+      </div>
+      <div class="comp" title="How recently the lead did anything themselves - decays with a 7-day half-life-ish curve.">
+        <span class="k">Recency</span>
+        <span class="track"><i style="width: 14.000000000000002%"></i></span>
+        <span class="v">2.1<span class="muted">/15</span></span>
+      </div>
+      <div class="comp" title="Inbound texts/calls and &#39;Interested&#39; call outcomes in the last 30 days.">
+        <span class="k">Responsiveness</span>
+        <span class="track"><i style="width: 0.0%"></i></span>
+        <span class="v">0.0<span class="muted">/15</span></span>
+      </div>
+      <div class="comp" title="Historical quality of the lead source (referrals and open houses convert best).">
+        <span class="k">Source quality</span>
+        <span class="track"><i style="width: 60.0%"></i></span>
+        <span class="v">6.0<span class="muted">/10</span></span>
+      </div>
+      <div class="comp" title="Where the lead sits in your FUB pipeline.">
+        <span class="k">Stage</span>
+        <span class="track"><i style="width: 60.0%"></i></span>
+        <span class="v">6.0<span class="muted">/10</span></span>
+      </div>
+      <div class="comp" title="Buying timeframe, pre-approval and price point.">
+        <span class="k">Timeline &amp; price</span>
+        <span class="track"><i style="width: 20.0%"></i></span>
+        <span class="v">2.0<span class="muted">/10</span></span>
+      </div>
+      <div class="comp" title="Engaged leads the team hasn&#39;t called/texted lately (or ever) - the &#39;don&#39;t drop the ball&#39; signal.">
+        <span class="k">Follow-up gap</span>
+        <span class="track"><i style="width: 0.0%"></i></span>
+        <span class="v">0.0<span class="muted">/10</span></span>
+      </div>
+      <div class="comp" title="Speed-to-lead bonus for brand-new leads with no outreach yet; fades over 72h.">
+        <span class="k">New lead bonus</span>
+        <span class="track"><i style="width: 0.0%"></i></span>
+        <span class="v">0.0<span class="muted">/12</span></span>
+      </div>
+      <div class="comp" title="&#39;Not interested&#39; on the last call, bad phone numbers.">
+        <span class="k">Penalties</span>
+        <span class="track"><i style="width: 0.0%"></i></span>
+        <span class="v">0.0<span class="muted">/35</span></span>
+      </div>
+      <div class="comp" style="border-top:1px solid var(--border); margin-top:6px; padding-top:10px">
+        <span class="k"><b>Total</b></span><span></span><span class="v"><b>16.1</b></span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><div><h2>Score history</h2><p>Daily score snapshot</p></div></div>
+      <div class="chart short"><canvas data-chart="history" role="img" aria-label="Line chart of this lead's daily score"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><h2>Signals</h2></div>
+      <dl class="facts" style="margin-top:0">
+        <div><dt>Views (48h / 7d)</dt><dd class="num">0 / 0</dd></div>
+        <div><dt>Inquiries (7d)</dt><dd class="num">0</dd></div>
+        <div><dt>Saved (7d)</dt><dd class="num">0</dd></div>
+        <div><dt>Replies (30d)</dt><dd class="num">0</dd></div>
+        <div><dt>Outreach total</dt><dd class="num">1 (1 calls)</dd></div>
+        <div><dt>Overdue tasks</dt><dd class="num">0</dd></div>
+      </dl>
+    </div>
+  </div>
+</div>
+  </main>
+</div>
+<script type="application/json" id="viz-data">{"history": {"kind": "line", "format": "score", "max": 100, "labels": ["Sep 06", "Sep 07", "Sep 08", "Sep 09", "Sep 10", "Sep 11", "Sep 12", "Sep 13", "Sep 14", "Sep 15", "Sep 16", "Sep 17", "Sep 18", "Sep 19", "Sep 20", "Sep 21", "Sep 22", "Sep 23", "Sep 24", "Sep 25", "Sep 26", "Sep 27", "Sep 28", "Sep 29", "Sep 30", "Oct 01", "Oct 02", "Oct 03", "Oct 04", "Oct 05", "Oct 06"], "series": [{"name": "Score", "data": [17.5, 17.4, 14.3, 14.3, 29.4, 27.6, 25.4, 24.1, 47.7, 45.9, 31.7, 29.4, 28.2, 27.2, 26.3, 18.9, 18.3, 32.5, 30.8, 27.6, 26.3, 25.1, 24.1, 23.2, 18.9, 18.3, 17.7, 17.2, 16.8, 16.4, 16.1], "color": "--s1"}]}}</script></body>
+</html>
